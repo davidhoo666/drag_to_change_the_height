@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <title>Div随鼠标拖动改变高度</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <!--<script src="dist/js/jquery-1.11.3.min.js"></script>-->
+    <script type="text/javascript" src="zepto.min.js"></script>
+    <style type="text/css">
+         html, body{ height: 100%; margin: 0; padding: 0; }
+         #footer { position:fixed; bottom:0; left:0; width:100%; height:120px; background-color:#B8D0FA;}
+         #expander{ width:100%; height:30px; background-color:#999;text-align: center;line-height: 30px;}
+         #expander:hover{ cursor:n-resize;}
+         #testh{background: #007aff;height: 78%}
+     </style>
+     <script>
+       ;(function($){
+             /*touchstart the title and drag the con moving*/
+             var src_posi_Y = 0, dest_posi_Y = 0, move_Y = 0;
+             var documentHeight = $(window).height();
+
+             $(document).on("touchstart","#expander",function(event){
+                 src_posi_Y = event.changedTouches[0].screenY;
+
+             }).on("touchmove","#expander",function(event){
+                 dest_posi_Y = event.changedTouches[0].clientY;
+                 move_Y = src_posi_Y - dest_posi_Y;
+                 //上侧div高度
+                 $("#testh").height(documentHeight - move_Y);
+                 //限制顶部最高拖动位置
+                 if(move_Y > documentHeight){
+                     move_Y = documentHeight;
+                 }
+//               //限制底部最高拖动位置
+                 if(move_Y < 30) {
+                     move_Y = 30;
+                 }
+
+                 $("#footer").height(move_Y);
+
+             }).on("touchend","#expander",function(event){
+//                 dest_posi_V = event.changedTouches[0].clientY;
+             });
+
+         })(Zepto);
+
+
+
+     </script>
+     </head>
+ <body>
+ <div style="width:100%; height:100%; background-color:#F2F2F2;">
+     <div id="testh">
+         It's Your Contents !
+     </div>
+ </div>
+ <div id="footer"><div id="expander">Drop me</div><span id="info">It's Your Contents !</span></div>
+ </body>
+ </html>
